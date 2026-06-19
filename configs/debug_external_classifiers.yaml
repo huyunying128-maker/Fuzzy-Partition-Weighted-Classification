@@ -1,0 +1,40 @@
+experiment:
+  name: debug_external_classifiers
+  output_dir: outputs
+  random_state: 0
+
+data:
+  data_dir: data/mnist
+  train_size: 1000
+  test_size: 200
+  shuffle: true
+  download: true
+
+partition:
+  kind: fuzzy
+  n_centers: 5
+  fuzzifier: 1.50
+  beta: 2.00
+  truncation: hpd
+  tolerance: 1.0e-5
+  max_iter: 20
+  epsilon: 1.0e-12
+
+representation:
+  include_original: true
+  include_membership: true
+  include_local_views: true
+
+classifiers:
+  - name: logistic_regression
+    display_name: Logistic regression
+    params:
+      C: 1.0
+      solver: lbfgs
+      max_iter: 500
+  - name: random_forest
+    display_name: Random forest
+    params:
+      n_estimators: 50
+      max_depth: 12
+      n_jobs: -1
