@@ -1,0 +1,77 @@
+experiment:
+  name: mnist_external_classifiers
+  output_dir: outputs
+  random_state: 0
+
+data:
+  data_dir: data/mnist
+  train_size: 48000
+  test_size: 12000
+  shuffle: true
+  download: true
+
+partition:
+  kind: fuzzy
+  n_centers: 10
+  fuzzifier: 1.30
+  beta: 1.25
+  truncation: hpd
+  tolerance: 1.0e-6
+  max_iter: 100
+  epsilon: 1.0e-12
+
+representation:
+  include_original: true
+  include_membership: true
+  include_local_views: true
+
+classifiers:
+  - name: ann
+    display_name: ANN
+    params:
+      hidden_layer_sizes: [256, 128]
+      activation: relu
+      solver: sgd
+      learning_rate_init: 0.01
+      batch_size: 256
+      max_iter: 100
+      early_stopping: true
+      n_iter_no_change: 10
+  - name: adam_ann
+    display_name: Adam ANN
+    params:
+      hidden_layer_sizes: [256, 128]
+      activation: relu
+      solver: adam
+      learning_rate_init: 0.001
+      batch_size: 256
+      max_iter: 100
+      early_stopping: true
+      n_iter_no_change: 10
+  - name: svm
+    display_name: SVM
+    params:
+      C: 10.0
+      kernel: rbf
+      gamma: scale
+      probability: true
+  - name: random_forest
+    display_name: Random forest
+    params:
+      n_estimators: 300
+      max_depth: null
+      min_samples_split: 2
+      min_samples_leaf: 1
+      n_jobs: -1
+  - name: xgboost
+    display_name: XGBoost
+    params:
+      n_estimators: 400
+      max_depth: 6
+      learning_rate: 0.05
+      subsample: 0.90
+      colsample_bytree: 0.90
+      objective: multi:softprob
+      eval_metric: mlogloss
+      tree_method: hist
+      n_jobs: -1
