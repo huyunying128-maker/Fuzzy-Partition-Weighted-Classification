@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the repository and the related paper."
+title: "Fuzzy Partition-Weighted Classification"
+type: software
+authors:
+  - family-names: Hu
+    given-names: Yunying
+    affiliation: "Wenzhou-Kean University"
+    email: "1305964@wku.edu.cn"
+  - family-names: Chen
+    given-names: Ray-Ming
+    affiliation: "Wenzhou-Kean University"
+    email: "raymingchen@wku.edu.cn"
+repository-code: "https://github.com/huyunying128-maker/Fuzzy-Partition-Weighted-Classification"
+version: "0.1.0"
+date-released: "2026-06-19"
+keywords:
+  - fuzzy clustering
+  - fuzzy partition
+  - local learning
+  - interpretable classification
+  - MNIST
+license: "MIT"
+abstract: >-
+  This repository provides a Python implementation of fuzzy partition-weighted
+  classification. The framework learns fuzzy memberships, forms local gated
+  inputs, trains local logit models, aggregates local predictions by fuzzy
+  weights, and constructs incorporated feature vectors for external classifiers.
