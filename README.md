@@ -1,91 +1,146 @@
 # Fuzzy Partition-Weighted Classification
 
-This repository contains the official implementation for the paper **"Technical Report of Incorporating Fuzzy Clustering into Various Machine Learning Methods"**.
+Official implementation for **Technical Report of Incorporating Fuzzy Clustering into Various Machine Learning Methods**.
 
-The project studies a fuzzy partition-weighted classification framework. The main model learns a fuzzy partition of the input space, builds membership-weighted local inputs, trains local polynomial/logit classifiers, and aggregates local outputs using normalized fuzzy weights. The same fuzzy information can also be used as an incorporated feature representation for external classifiers such as ANN, CNN, SVM, random forest, and XGBoost.
+The repository implements a fuzzy partition-weighted classification framework. The method learns a partition of the input space, computes fuzzy membership values, forms membership-weighted local inputs, fits local logit models, and aggregates local logits using fuzzy weights. The same partition information is also used to construct an incorporated feature vector for external classifiers.
 
-The implementation is being organized to follow the mathematical formulation in the paper directly. Legacy experimental scripts are not treated as authoritative source code. In particular, PCA-based compression, top-m filtering, memory-saving approximations, or other speed-oriented variants are not part of the default implementation unless they are explicitly added as optional experimental settings later.
+## Method overview
 
-## Repository Status
-
-The repository is currently being prepared for public release. The first public version will include:
-
-- reproducible MNIST data preparation;
-- crisp and fuzzy partition learning;
-- distance-table computation with the distance parameter beta;
-- fuzzy membership computation with the fuzzifier f;
-- truncation rules including DTD, Shannon entropy, harmonic distance-change control, square probability, and HPD;
-- local polynomial/logit classification with fuzzy aggregation;
-- fuzzy-incorporated feature construction for external classifiers;
-- scripts for reproducing the MNIST tables and figures in the paper.
-
-## Planned Repository Structure
+For a sample `x_i`, the model computes distances to centroids and obtains a membership vector
 
 ```text
-fuzzy-partition-weighted-classification/
+u_i = [u_i1, ..., u_ik].
+```
+
+The local input for group `j` is
+
+```text
+x_tilde_ij = u_ij * x_i.
+```
+
+A local classifier is trained on each local input. The final logits are aggregated with normalized fuzzy weights. For external classifiers, the incorporated representation is
+
+```text
+z_i = [x_i, u_i, u_i1 x_i, ..., u_ik x_i].
+```
+
+The implementation includes crisp and fuzzy partitioning, distance-table computation with a distance parameter `beta`, fuzzy membership computation with a fuzzifier `f`, truncation criteria, HPD, local logit classification, external classifier comparisons, ablation experiments, and MNIST centroid visualizations.
+
+## Repository structure
+
+```text
+.
+├── configs/                 # YAML experiment configurations
+├── data/                    # Local datasets, not committed
+├── docs/                    # Usage and reproducibility notes
+├── models/                  # Local trained models, not committed
+├── outputs/                 # Local experiment outputs, not committed
+├── paper/                   # Paper-related notes and citation material
+├── scripts/                 # Command-line experiment scripts
+├── src/fpwc/                # Python package source code
+├── tests/                   # Pytest test suite
+├── assets/                  # Figures for documentation
 ├── README.md
-├── LICENSE
-├── CITATION.cff
 ├── requirements.txt
 ├── environment.yml
-├── .gitignore
-├── configs/
-├── data/
-├── src/
-│   └── fpwc/
-├── scripts/
-├── tests/
-├── assets/
-├── outputs/
-└── paper/
+├── pyproject.toml
+├── CITATION.cff
+└── LICENSE
 ```
-
-## Method Overview
-
-For an input vector `x_i`, the method first computes distances from `x_i` to learned centroids and obtains fuzzy memberships `u_i1, ..., u_ik`. The local view for group `j` is
-
-```text
-x_tilde_ij = u_ij * x_i
-```
-
-A local classifier is trained on the membership-weighted input. The local logits are then aggregated using normalized fuzzy weights. The same partition information can also be used to build an incorporated feature vector
-
-```text
-z_i = [x_i, u_i, u_i1 x_i, ..., u_ik x_i]
-```
-
-which can be passed to external classifiers.
 
 ## Installation
 
-The code will target Python 3.10 or newer. After cloning the repository, install the dependencies with:
+Create a Python environment and install the package in editable mode:
 
 ```bash
 pip install -r requirements.txt
+pip install -e .
 ```
 
-For systems where PyTorch installation depends on CUDA or CPU-only settings, install the correct PyTorch build from the official PyTorch installation command first, and then run the command above.
+Alternatively, with conda:
 
-## Reproducing the MNIST Experiments
+```bash
+conda env create -f environment.yml
+conda activate fpwc
+pip install -e .
+```
 
-The final repository will provide script-level entry points similar to the following:
+Run the test suite:
+
+```bash
+pytest
+```
+
+A quick pipeline check that does not require downloading MNIST is provided by
+
+```bash
+python scripts/quick_debug_run.py
+```
+
+## MNIST experiments
+
+Prepare the MNIST split:
 
 ```bash
 python scripts/00_prepare_mnist.py --data_dir data/mnist
-python scripts/01_run_local_classifier.py --config configs/mnist_local_hpd.yaml
-python scripts/02_run_all_truncations.py --config configs/mnist_local_all_truncations.yaml
-python scripts/03_run_external_classifiers.py --config configs/mnist_external_classifiers.yaml
-python scripts/04_run_ablation.py --config configs/mnist_ablation.yaml
-python scripts/05_make_digit_centroids.py --config configs/mnist_centroid_visualization.yaml
-python scripts/06_make_summary_tables.py --output_dir outputs/mnist_full_run
 ```
 
-Large generated files, downloaded datasets, trained models, and experiment outputs are intentionally ignored by Git and should not be committed to the repository.
+Run the main fuzzy local HPD experiment:
+
+```bash
+python scripts/01_run_local_classifier.py --config configs/mnist_local_hpd.yaml
+```
+
+Compare truncation criteria:
+
+```bash
+python scripts/02_run_all_truncations.py --config configs/mnist_local_all_truncations.yaml
+```
+
+Run original versus fuzzy-incorporated external classifiers:
+
+```bash
+python scripts/03_run_external_classifiers.py --config configs/mnist_external_classifiers.yaml
+```
+
+Run the feature-block ablation:
+
+```bash
+python scripts/04_run_ablation.py --config configs/mnist_ablation.yaml
+```
+
+Create digit centroid visualizations:
+
+```bash
+python scripts/05_make_digit_centroids.py --config configs/mnist_centroid_visualization.yaml
+```
+
+Collect generated CSV and Markdown summary tables:
+
+```bash
+python scripts/06_make_summary_tables.py --config configs/summary_tables.yaml
+```
+
+## Debug configurations
+
+Small debug configurations are provided for checking the workflow before running the full MNIST experiments:
+
+```bash
+python scripts/01_run_local_classifier.py --config configs/debug_small.yaml
+python scripts/02_run_all_truncations.py --config configs/debug_all_truncations.yaml
+python scripts/03_run_external_classifiers.py --config configs/debug_external_classifiers.yaml
+python scripts/04_run_ablation.py --config configs/debug_ablation.yaml
+python scripts/05_make_digit_centroids.py --config configs/debug_centroid_visualization.yaml
+```
+
+## Outputs
+
+Experiment outputs are written under `outputs/`. Generated datasets, model checkpoints, arrays, and large experiment results are excluded from version control. Summary tables and selected figures may be copied into `assets/` for documentation.
 
 ## Citation
 
-The formal citation will be added after the final publication information is available.
+Citation metadata is provided in `CITATION.cff`. The formal publication citation can be updated after the final proceedings information is available.
 
 ## License
 
-A license file will be added before public release. If no special restriction is required by the institution or coauthors, an MIT License is recommended for research code.
+This project is released under the license included in `LICENSE`.
