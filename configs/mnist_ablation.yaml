@@ -1,0 +1,62 @@
+experiment:
+  name: mnist_ablation
+  output_dir: outputs
+  random_state: 0
+
+data:
+  data_dir: data/mnist
+  train_size: 48000
+  test_size: 12000
+  shuffle: true
+  download: true
+
+partition:
+  kind: fuzzy
+  n_centers: 10
+  fuzzifier: 1.30
+  beta: 1.25
+  truncation: hpd
+  tolerance: 1.0e-6
+  max_iter: 100
+  epsilon: 1.0e-12
+
+classifier:
+  name: xgboost
+  display_name: XGBoost
+  random_state: 0
+  params:
+    n_estimators: 400
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.90
+    colsample_bytree: 0.90
+    objective: multi:softprob
+    eval_metric: mlogloss
+    tree_method: hist
+    n_jobs: -1
+
+representations:
+  - key: original
+    label: x_i only
+    description: raw pixels
+    include_original: true
+    include_membership: false
+    include_local_views: false
+  - key: original_membership
+    label: "[x_i, u_i]"
+    description: prototype context
+    include_original: true
+    include_membership: true
+    include_local_views: false
+  - key: original_local_views
+    label: "[x_i, u_ij x_i]"
+    description: gated views
+    include_original: true
+    include_membership: false
+    include_local_views: true
+  - key: full_incorporation
+    label: "[x_i, u_i, u_ij x_i]"
+    description: full incorporation
+    include_original: true
+    include_membership: true
+    include_local_views: true
