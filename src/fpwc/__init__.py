@@ -1,5 +1,6 @@
 """Fuzzy Partition-Weighted Classification utilities."""
 
+from .config import ExperimentConfig, deep_update, load_config, save_config
 from .data_mnist import (
     MNISTSplit,
     class_centroids,
@@ -29,6 +30,17 @@ from .hpd import (
     hereditary_distance_from_memberships,
     hereditary_partition_distance,
     labels_from_membership,
+)
+from .io_utils import (
+    ensure_dir,
+    load_csv,
+    load_json,
+    load_numpy,
+    make_run_dir,
+    save_csv,
+    save_json,
+    save_numpy,
+    timestamp_utc,
 )
 from .local_classifier import LocalLogitPrediction, PartitionWeightedLocalLogitClassifier
 from .memberships import (
@@ -65,6 +77,7 @@ from .polynomial_basis import (
     polynomial_basis,
     polynomial_feature_count,
 )
+from .random_utils import SeedState, make_rng, set_random_seed
 from .report_tables import (
     ablation_table,
     classifier_comparison_table,
@@ -95,6 +108,10 @@ from .visualization import (
 )
 
 __all__ = [
+    "ExperimentConfig",
+    "deep_update",
+    "load_config",
+    "save_config",
     "MNISTSplit",
     "class_centroids",
     "load_mnist_train_split",
@@ -117,6 +134,15 @@ __all__ = [
     "hereditary_distance_from_memberships",
     "hereditary_partition_distance",
     "labels_from_membership",
+    "ensure_dir",
+    "load_csv",
+    "load_json",
+    "load_numpy",
+    "make_run_dir",
+    "save_csv",
+    "save_json",
+    "save_numpy",
+    "timestamp_utc",
     "LocalLogitPrediction",
     "PartitionWeightedLocalLogitClassifier",
     "aggregation_weights",
@@ -145,6 +171,9 @@ __all__ = [
     "PolynomialBasisSpec",
     "polynomial_basis",
     "polynomial_feature_count",
+    "SeedState",
+    "make_rng",
+    "set_random_seed",
     "ablation_table",
     "classifier_comparison_table",
     "collect_result_records",
