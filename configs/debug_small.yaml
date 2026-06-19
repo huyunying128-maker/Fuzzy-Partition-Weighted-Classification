@@ -1,0 +1,29 @@
+experiment:
+  name: debug_small_local
+  output_dir: outputs
+  random_state: 0
+
+data:
+  data_dir: data/mnist
+  train_size: 1000
+  test_size: 200
+  shuffle: true
+  download: true
+
+model:
+  partition_kind: fuzzy
+  n_centers: 10
+  fuzzifier: 1.30
+  beta: 1.25
+  degree: 2
+  truncation: hpd
+  tolerance: 1.0e-6
+  max_partition_iter: 30
+  polynomial_interaction_mode: powers
+  epsilon: 1.0e-12
+
+logistic:
+  C: 1.0
+  solver: lbfgs
+  max_iter: 500
+  fit_intercept: false
