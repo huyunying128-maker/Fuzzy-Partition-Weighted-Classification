@@ -1,0 +1,56 @@
+experiment:
+  name: debug_ablation
+  output_dir: outputs
+  random_state: 0
+
+data:
+  data_dir: data/mnist
+  train_size: 1000
+  test_size: 200
+  shuffle: true
+  download: true
+
+partition:
+  kind: fuzzy
+  n_centers: 5
+  fuzzifier: 1.50
+  beta: 2.00
+  truncation: hpd
+  tolerance: 1.0e-5
+  max_iter: 20
+  epsilon: 1.0e-12
+
+classifier:
+  name: logistic_regression
+  display_name: Logistic regression
+  random_state: 0
+  params:
+    C: 1.0
+    solver: lbfgs
+    max_iter: 500
+
+representations:
+  - key: original
+    label: x_i only
+    description: raw pixels
+    include_original: true
+    include_membership: false
+    include_local_views: false
+  - key: original_membership
+    label: "[x_i, u_i]"
+    description: prototype context
+    include_original: true
+    include_membership: true
+    include_local_views: false
+  - key: original_local_views
+    label: "[x_i, u_ij x_i]"
+    description: gated views
+    include_original: true
+    include_membership: false
+    include_local_views: true
+  - key: full_incorporation
+    label: "[x_i, u_i, u_ij x_i]"
+    description: full incorporation
+    include_original: true
+    include_membership: true
+    include_local_views: true
