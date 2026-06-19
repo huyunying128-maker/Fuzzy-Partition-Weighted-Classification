@@ -1,6 +1,36 @@
 """Fuzzy Partition-Weighted Classification utilities."""
 
+from .data_mnist import (
+    MNISTSplit,
+    class_centroids,
+    load_mnist_train_split,
+    scale_pixels,
+    train_test_split_arrays,
+)
 from .distances import beta_distance_matrix
+from .external_classifiers import (
+    ExternalClassifierConfig,
+    ExternalClassifierResult,
+    build_external_classifier,
+    compare_original_and_incorporated,
+    evaluate_external_classifier,
+    fit_and_evaluate_external_classifier,
+    fit_external_classifier,
+    predict_probabilities,
+)
+from .feature_builder import (
+    flatten_local_weighted_inputs,
+    incorporated_feature_vector,
+    local_weighted_inputs,
+    membership_weighted_prototype,
+)
+from .hpd import (
+    contingency_table,
+    hereditary_distance_from_memberships,
+    hereditary_partition_distance,
+    labels_from_membership,
+)
+from .local_classifier import LocalLogitPrediction, PartitionWeightedLocalLogitClassifier
 from .memberships import (
     aggregation_weights,
     crisp_membership,
@@ -8,15 +38,135 @@ from .memberships import (
     fuzzy_membership,
     fuzzy_membership_from_distances,
 )
+from .metrics import (
+    ClassificationReport,
+    accuracy_score,
+    classification_report,
+    cross_entropy_from_logits,
+    cross_entropy_from_probabilities,
+    error_rate,
+    one_hot,
+    predict_from_logits,
+    predict_from_probabilities,
+    relative_error_reduction,
+    softmax,
+)
+from .partition import (
+    PartitionResult,
+    fit_crisp_partition,
+    fit_fuzzy_partition,
+    initialize_centers,
+    update_crisp_centers,
+    update_fuzzy_centers,
+)
+from .polynomial_basis import (
+    PolynomialBasis,
+    PolynomialBasisSpec,
+    polynomial_basis,
+    polynomial_feature_count,
+)
+from .report_tables import (
+    ablation_table,
+    classifier_comparison_table,
+    collect_result_records,
+    error_reduction_table,
+    load_result_table,
+    local_result_row,
+    make_local_results_table,
+    result_to_dict,
+    save_table,
+    truncation_summary_table,
+    write_report_bundle,
+)
+from .truncation import (
+    distance_table_difference,
+    harmonic_distance_change,
+    shannon_entropy,
+    shannon_entropy_change,
+    square_probability_change,
+)
+from .visualization import (
+    plot_centroid_prototypes,
+    plot_classifier_comparison,
+    plot_confusion_matrix,
+    plot_digit_grid,
+    plot_digit_standardization_example,
+    save_or_show,
+)
 
 __all__ = [
+    "MNISTSplit",
+    "class_centroids",
+    "load_mnist_train_split",
+    "scale_pixels",
+    "train_test_split_arrays",
     "beta_distance_matrix",
+    "ExternalClassifierConfig",
+    "ExternalClassifierResult",
+    "build_external_classifier",
+    "compare_original_and_incorporated",
+    "evaluate_external_classifier",
+    "fit_and_evaluate_external_classifier",
+    "fit_external_classifier",
+    "predict_probabilities",
+    "flatten_local_weighted_inputs",
+    "incorporated_feature_vector",
+    "local_weighted_inputs",
+    "membership_weighted_prototype",
+    "contingency_table",
+    "hereditary_distance_from_memberships",
+    "hereditary_partition_distance",
+    "labels_from_membership",
+    "LocalLogitPrediction",
+    "PartitionWeightedLocalLogitClassifier",
     "aggregation_weights",
     "crisp_membership",
     "crisp_membership_from_distances",
     "fuzzy_membership",
     "fuzzy_membership_from_distances",
+    "ClassificationReport",
+    "accuracy_score",
+    "classification_report",
+    "cross_entropy_from_logits",
+    "cross_entropy_from_probabilities",
+    "error_rate",
+    "one_hot",
+    "predict_from_logits",
+    "predict_from_probabilities",
+    "relative_error_reduction",
+    "softmax",
+    "PartitionResult",
+    "fit_crisp_partition",
+    "fit_fuzzy_partition",
+    "initialize_centers",
+    "update_crisp_centers",
+    "update_fuzzy_centers",
+    "PolynomialBasis",
+    "PolynomialBasisSpec",
+    "polynomial_basis",
+    "polynomial_feature_count",
+    "ablation_table",
+    "classifier_comparison_table",
+    "collect_result_records",
+    "error_reduction_table",
+    "load_result_table",
+    "local_result_row",
+    "make_local_results_table",
+    "result_to_dict",
+    "save_table",
+    "truncation_summary_table",
+    "write_report_bundle",
+    "distance_table_difference",
+    "harmonic_distance_change",
+    "shannon_entropy",
+    "shannon_entropy_change",
+    "square_probability_change",
+    "plot_centroid_prototypes",
+    "plot_classifier_comparison",
+    "plot_confusion_matrix",
+    "plot_digit_grid",
+    "plot_digit_standardization_example",
+    "save_or_show",
 ]
 
 __version__ = "0.1.0"
-
