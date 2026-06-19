@@ -1,0 +1,25 @@
+experiment:
+  name: summary_tables
+  output_dir: outputs
+  random_state: 2026
+
+source_runs:
+  local_classifier: outputs/mnist_local_hpd
+  truncation_comparison: outputs/mnist_local_all_truncations
+  external_classifiers: outputs/mnist_external_classifiers
+  ablation: outputs/mnist_ablation
+
+table_formats:
+  - csv
+  - md
+
+fail_on_missing: false
+
+local_table:
+  include: true
+  family: Fuzzy local
+  degree_key: model.degree
+  truncation_key: model.truncation
+  k_key: model.n_centers
+  fuzzifier_key: model.fuzzifier
+  beta_key: model.beta
