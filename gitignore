@@ -1,0 +1,105 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.conda/
+
+# Python test and coverage outputs
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local environment files
+.env
+.env.*
+*.local
+
+# Editor / IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Project data directories
+# Keep only small README or placeholder files in these folders.
+data/raw/
+data/processed/
+data/mnist/
+data/**/*.gz
+
+# Experiment outputs
+outputs/*
+!outputs/README.md
+!outputs/.gitkeep
+
+# Generated figures and temporary reports
+figures/generated/
+reports/generated/
+
+# Trained models and serialized objects
+models/*
+!models/README.md
+!models/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pkl
+*.pickle
+*.joblib
+
+# Large numerical arrays and cached feature matrices
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.cache/
