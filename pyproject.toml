@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fuzzy-partition-weighted-classification"
+version = "0.1.0"
+description = "Fuzzy partition-weighted classification and fuzzy-incorporated feature construction."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Yunying Hu" },
+    { name = "Ray-Ming Chen" }
+]
+keywords = [
+    "fuzzy clustering",
+    "local classification",
+    "interpretable machine learning",
+    "MNIST",
+    "partition distance"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+    "xgboost>=2.0",
+    "torch>=2.1",
+    "torchvision>=0.16",
+    "PyYAML>=6.0",
+    "tqdm>=4.66",
+    "joblib>=1.3",
+    "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+]
+
+[project.urls]
+Repository = "https://github.com/huyunying128-maker/Fuzzy-Partition-Weighted-Classification"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["fpwc*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = []
